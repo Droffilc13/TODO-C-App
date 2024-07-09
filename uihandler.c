@@ -1,5 +1,5 @@
 #include "uihandler.h"
-
+#define CHOICE_SIZE 3
 
 int displayStartScreen() {
     puts("#######################################");
@@ -15,15 +15,15 @@ int displayStartScreen() {
     puts("(0) Exit\n");
 
     printf("Enter your choice (integer from 0 to 5): ");
-    char choice[50];
+    char choice[CHOICE_SIZE];
     
-    if (!(fgets(choice, sizeof(choice), stdin) != NULL)) {
+    if (fgets(choice, sizeof(choice), stdin) == NULL) {
         return -1;
     }
 
     clear_input_buffer();
     
-    if (strlen(choice) != 2) {
+    if (strlen(choice) != 2 || choice[1] != '\n') {    
         return -2;
     }
 
