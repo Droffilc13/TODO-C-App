@@ -1,3 +1,6 @@
+#ifndef NODE_H
+#define NODE_H
+
 #include <assert.h>
 #include <stdio.h>
 #include <string.h>
@@ -26,3 +29,5 @@ void appendNode(TodoNode** headNode, const char* description, const char* deadli
 void removeNode(TodoNode** headNode, int id);
 
 void editNode(TodoNode** headNode, const char* newDescription, const char* newDeadline, Status newStatus, int id);
+
+#endif

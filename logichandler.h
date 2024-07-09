@@ -1,6 +1,7 @@
 #ifndef LOGICHANDLER_H
 #define LOGICHANDLER_H
-#include "node.c"
+#include "node.h"
+#include <string.h>
 
 void addTask(TodoNode** headNode, const char* description, const char* deadline);
 
@@ -10,6 +11,6 @@ void markTaskAsComplete(TodoNode** headNode, int id);
 
 void editTask(TodoNode** headNode, const char* description, const char* deadline, int id);
 
-void decideTask(int choice);
+void listTask(TodoNode** headNode);
 
 #endif

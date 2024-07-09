@@ -10,8 +10,8 @@ int displayStartScreen() {
     puts("(1) Add a Task");
     puts("(2) Delete a Task");
     puts("(3) Edit a Task");
-    puts("(4) Search a Task");
-    puts("(5) List Tasks");
+    puts("(4) List Tasks");
+    puts("(5) Mark Task as Done");
     puts("(0) Exit\n");
 
     printf("Enter your choice (integer from 0 to 5): ");
@@ -41,17 +41,3 @@ int displayStartScreen() {
 
     return choiceNum;
 }
-
-// void listTask(TodoNode** headNode) {
-//     int counter = 1;
-//     TodoNode* currNode = headNode;
-
-//     while (currNode != NULL) {
-//         printf("%d. [%c] %s | Deadline: %s\n", counter, 
-//             currNode->status == COMPLETED ? 'X' : ' ',
-//             currNode->description,
-//             currNode->deadline == NULL ? "NIL": currNode->deadline);
-        
-//         counter += 1;
-//     }
-// }
