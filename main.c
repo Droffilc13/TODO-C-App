@@ -1,5 +1,6 @@
 #include "uihandler.h"
 #include "logichandler.h"
+#include <stdlib.h>
 
 #define TASK_MAX_SIZE 200
 
@@ -150,19 +151,42 @@ int main(void) {
                 break;
             case 5:
                 puts("Mark Task as Complete");
-                int idToToggle;
+                char* idToToggle[4];
+                int id;
 
                 do {
                     printf("Enter a task ID to edit: ");
-                    if (scanf("%d", &idToToggle) != 1 || idToToggle < 1 || idToToggle > taskCount) {
-                        puts("Invalid id: Please enter a number corresponding to the id of an existing task");
-                        clear_input_buffer();
+                    if (fgets(idToToggle, sizeof(idToToggle), stdin) != NULL) {
+                        size_t length = strlen(input);
+                        if (length > 0 && idToToggle[length - 1] == '\n') {
+                            idToToggle[length - 1] = '\0';
+                        } else {
+                            puts("Invalid id: Please enter a number corresponding to the id of an existing task");
+                            clear_input_buffer();
+                            continue;
+                        }
+
+                        if (isValidInteger(idToToggle)) {
+                            id = atoi(idToToggle);
+                        } else {
+                            puts("Invalid id: Please enter a number corresponding to the id of an existing task");
+                            continue;
+                        }
+
+                        if (id <= 0 || id > taskCount) {
+                            puts("Invalid id: Please enter a number corresponding to the id of an existing task");
+                            continue;
+                        } else {
+                            break;
+                        }
+
                     } else {
-                        break;
+                        puts("Invalid id: Please enter a number corresponding to the id of an existing task");
+                        continue;
                     }
                 } while(1);
 
-                markTaskAsComplete(&taskList, idToToggle);
+                markTaskAsComplete(&taskList, id);
                 puts("Task successfully marked as complete");
             default:
                 printf("Unrecognised choice: Please input an integer value between 0 and 5: Error Code: %d\n", choice);

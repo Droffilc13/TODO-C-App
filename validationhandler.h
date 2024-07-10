@@ -3,5 +3,5 @@
 #include <stdio.h>
 
 void clear_input_buffer();
-
+int isValidInteger();
 #endif
