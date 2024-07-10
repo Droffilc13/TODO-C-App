@@ -13,12 +13,18 @@ int main(void) {
         int choice = displayStartScreen();
         
         if (choice < 0) {
+            printf("Unrecognised choice: Please input an integer value between 0 and 5: Error Code: %d\n", choice);
             continue;
         }
 
         switch (choice) {
             case 0:
                 isRunning = 0;
+                while (taskList != NULL) {
+                    TodoNode* temp = taskList;
+                    taskList = taskList->next;
+                    free(temp);
+                }
                 break;
             case 1:
                 puts("Adding Task");
