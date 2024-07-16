@@ -2,6 +2,7 @@
 #include "logichandler.h"
 #include <stdlib.h>
 
+
 #define TASK_MAX_SIZE 200
 
 int main(void) {
@@ -29,6 +30,7 @@ int main(void) {
                 break;
             case 1:
                 puts("Adding Task");
+                clear_input_buffer();
                 if (taskCount > TASK_MAX_SIZE) {
                     puts("TODO list is full. Unable to add more task. Please top up for the premium $9.99 for more capacity!");
                 } else {
@@ -75,19 +77,44 @@ int main(void) {
                 break;
             case 2:
                 puts("Delete Task");
-                int idToRemove;
+                char idToRemove[4];
+                int id2;
+
+                clear_input_buffer();
 
                 do {
-                    printf("Enter a task ID to edit: ");
-                    if (scanf("%d", &idToRemove) != 1 || idToRemove < 1 || idToRemove > taskCount) {
-                        puts("Invalid id: Please enter a number corresponding to the id of an existing task");
-                        clear_input_buffer();
+                    printf("Enter a task ID to remove: ");
+                    if (fgets(idToRemove, sizeof(idToRemove), stdin) != NULL) {
+                        size_t length = strlen(idToRemove);
+                        if (length > 0 && idToRemove[length - 1] == '\n') {
+                            idToRemove[length - 1] = '\0';
+                        } else {
+                            puts("Invalid id: Please enter a number corresponding to the id of an existing task");
+                            clear_input_buffer();
+                            continue;
+                        }
+
+                        if (isValidInteger(idToRemove)) {
+                            id2 = atoi(idToRemove);
+                        } else {
+                            puts("Invalid id: Please enter a number corresponding to the id of an existing task");
+                            continue;
+                        }
+
+                        if (id2 <= 0 || id2 > taskCount) {
+                            puts("Invalid id: Please enter a number corresponding to the id of an existing task");
+                            continue;
+                        } else {
+                            break;
+                        }
+
                     } else {
-                        break;
+                        puts("Invalid id: Please enter a number corresponding to the id of an existing task");
+                        continue;
                     }
                 } while(1);
 
-                removeTask(&taskList, idToRemove);
+                removeTask(&taskList, id2);
                 taskCount -= 1;
                 puts("Task successfully removed");
 
@@ -95,17 +122,41 @@ int main(void) {
             case 3:
                 puts("Edit task");
 
-                int idToEdit;
                 char description[MAX_DESCRIPTION_SIZE];
                 char deadline[MAX_DEADLINE_SIZE];
-                
+
+                char idToEdit[4];
+                int id3;
+
                 do {
+                    clear_input_buffer();
                     printf("Enter a task ID to edit: ");
-                    if (scanf("%d", &idToEdit) != 1 || idToEdit < 1 || idToEdit > taskCount) {
-                        puts("Invalid id: Please enter a number corresponding to the id of an existing task");
-                        clear_input_buffer();
+                    if (fgets(idToEdit, sizeof(idToEdit), stdin) != NULL) {
+                        size_t length = strlen(idToEdit);
+                        if (length > 0 && idToEdit[length - 1] == '\n') {
+                            idToEdit[length - 1] = '\0';
+                        } else {
+                            puts("Invalid id: Please enter a number corresponding to the id of an existing task");
+                            continue;
+                        }
+
+                        if (isValidInteger(idToEdit)) {
+                            id3 = atoi(idToEdit);
+                        } else {
+                            puts("Invalid id: Please enter a number corresponding to the id of an existing task");
+                            continue;
+                        }
+
+                        if (id3 <= 0 || id3 > taskCount) {
+                            puts("Invalid id: Please enter a number corresponding to the id of an existing task");
+                            continue;
+                        } else {
+                            break;
+                        }
+
                     } else {
-                        break;
+                        puts("Invalid id: Please enter a number corresponding to the id of an existing task");
+                        continue;
                     }
                 } while(1);
 
@@ -142,7 +193,7 @@ int main(void) {
                     }
                 } while(1);
 
-                editTask(&taskList, description, deadline, idToEdit);
+                editTask(&taskList, description, deadline, id3);
                 puts("Task edited successfully");
                 break;
             case 4:
@@ -151,13 +202,14 @@ int main(void) {
                 break;
             case 5:
                 puts("Mark Task as Complete");
-                char* idToToggle[4];
+                char idToToggle[4];
                 int id;
+                clear_input_buffer();
 
                 do {
-                    printf("Enter a task ID to edit: ");
+                    printf("Enter a task ID to mark as complete: ");
                     if (fgets(idToToggle, sizeof(idToToggle), stdin) != NULL) {
-                        size_t length = strlen(input);
+                        size_t length = strlen(idToToggle);
                         if (length > 0 && idToToggle[length - 1] == '\n') {
                             idToToggle[length - 1] = '\0';
                         } else {
